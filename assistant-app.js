@@ -660,13 +660,13 @@ class AssistantApp {
       const handlerResult = handler(this);
       if (handlerResult instanceof Promise) {
         return handlerResult.then(
-            (result) = > {
+            (result) => {
             debug(result);
         return result;
       })
       .
         catch(
-          (reason) = > {
+          (reason) => {
           this.handleError_('function failed: %s', reason.message);
         this.tell(!reason.message ? ERROR_MESSAGE : reason.message);
         return Promise.reject(reason);
@@ -681,13 +681,13 @@ class AssistantApp {
       const intent = this.getIntent();
       return this.invokeIntentHandler_(handler, intent)
           .then(
-            (result) = > {
+            (result) => {
           debug(result);
       return result;
     })
     .
       catch(
-        (reason) = > {
+        (reason) => {
         this.tell(!this.lastErrorMessage_ ? ERROR_MESSAGE : this.lastErrorMessage_);
       return Promise.reject(reason);
     }
@@ -1907,7 +1907,7 @@ class AssistantApp {
       return null;
     }
     if (data && data.surface && data.surface.capabilities) {
-      return data.surface.capabilities.map(capability = > capability.name
+      return data.surface.capabilities.map(capability => capability.name
     )
       ;
     } else {
@@ -1947,11 +1947,11 @@ class AssistantApp {
     const {availableSurfaces} = this.requestData();
     if (availableSurfaces) {
       for (let surface of availableSurfaces) {
-        const availableCapabilities = surface.capabilities.map(capability = > capability.name
+        const availableCapabilities = surface.capabilities.map(capability => capability.name
       )
         ;
         const unavailableCapabilities = capabilitiesArray
-            .filter(capability = > !availableCapabilities.includes(capability)
+            .filter(capability => !availableCapabilities.includes(capability)
       )
         ;
         if (!unavailableCapabilities.length) {
@@ -2251,13 +2251,13 @@ class AssistantApp {
         const handlerResult = value(this);
         if (handlerResult instanceof Promise) {
           return handlerResult.then(
-              (result) = > {
+              (result) => {
               // No-op
               return result;
         })
         .
           catch(
-            (reason) = > {
+            (reason) => {
             error(reason.message
         )
           ;
