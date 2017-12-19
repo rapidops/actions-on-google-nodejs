@@ -766,7 +766,7 @@ class AssistantApp {
       if (permission !== this.SupportedPermissions.NAME &&
         permission !== this.SupportedPermissions.DEVICE_PRECISE_LOCATION &&
         permission !== this.SupportedPermissions.DEVICE_COARSE_LOCATION &&
-        permission !== this.SupportedPermissions.EMAIL
+        permission !== this.SupportedPermissions.EMAIL &&
         permission !== this.SupportedPermissions.PHONE_NUMBER) {
         this.handleError_('Assistant permission must be one of ' +
           '[NAME, DEVICE_PRECISE_LOCATION, DEVICE_COARSE_LOCATION,EMAIL, PHONE_NUMBER]');
