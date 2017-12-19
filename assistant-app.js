@@ -39,7 +39,7 @@ const {
   OrderUpdate
 } = require('./transactions');
 
-const {transformToSnakeCase} = require('./utils/transform');
+const { transformToSnakeCase } = require('./utils/transform');
 
 // Constants
 const ERROR_MESSAGE = 'Sorry, I am unable to process your request.';
@@ -76,7 +76,7 @@ class AssistantApp {
    * @param {function(): *} requestData Function that returns the
    *     request data object to be processed.
    */
-  constructor(options, requestData) {
+  constructor (options, requestData) {
     debug('AssistantApp constructor');
 
     this.requestData = requestData;
@@ -291,8 +291,8 @@ class AssistantApp {
        * Confirmation to receive proactive content at any time from the app.
        */
       UPDATE: 'UPDATE',
-      EMAIL: 'EMAIL',
-      PHONE_NUMBER: 'PHONE_NUMBER'
+      EMAIL:'EMAIL',
+      PHONE_NUMBER :'PHONE_NUMBER'
     };
 
     /**
@@ -569,7 +569,7 @@ class AssistantApp {
    * @actionssdk
    * @dialogflow
    */
-  handleRequest(handler) {
+  handleRequest (handler) {
     debug('handleRequest: handler=%s', handler);
     this.handleRequestAsync(handler);
   }
@@ -647,7 +647,7 @@ class AssistantApp {
    * @actionssdk
    * @dialogflow
    */
-  handleRequestAsync(handler) {
+  handleRequestAsync (handler) {
     debug('handleRequestAsync: handler=%s', handler);
     if (!handler) {
       this.handleError_('request handler can NOT be empty.');
@@ -664,14 +664,12 @@ class AssistantApp {
             debug(result);
         return result;
       })
-      .
-        catch(
+      .catch(
           (reason) => {
           this.handleError_('function failed: %s', reason.message);
         this.tell(!reason.message ? ERROR_MESSAGE : reason.message);
         return Promise.reject(reason);
-      })
-        ;
+      });
       } else {
         // Handle functions
         return Promise.resolve(handlerResult);
@@ -685,14 +683,12 @@ class AssistantApp {
           debug(result);
       return result;
     })
-    .
-      catch(
+    .catch(
         (reason) => {
         this.tell(!this.lastErrorMessage_ ? ERROR_MESSAGE : this.lastErrorMessage_);
       return Promise.reject(reason);
     }
-    )
-      ;
+    );
     }
     // Could not handle intent
     this.handleError_('invalid intent handler type: ' + (typeof handler));
@@ -754,7 +750,7 @@ class AssistantApp {
    * @actionssdk
    * @dialogflow
    */
-  askForPermissions(context, permissions, dialogState) {
+  askForPermissions (context, permissions, dialogState) {
     debug('askForPermissions: context=%s, permissions=%s, dialogState=%s',
       context, permissions, JSON.stringify(dialogState));
     if (!context || context === '') {
@@ -770,10 +766,10 @@ class AssistantApp {
       if (permission !== this.SupportedPermissions.NAME &&
         permission !== this.SupportedPermissions.DEVICE_PRECISE_LOCATION &&
         permission !== this.SupportedPermissions.DEVICE_COARSE_LOCATION &&
-        permission !== this.SupportedPermissions.EMAIL &&
+        permission !== this.SupportedPermissions.EMAIL
         permission !== this.SupportedPermissions.PHONE_NUMBER) {
         this.handleError_('Assistant permission must be one of ' +
-          '[NAME, DEVICE_PRECISE_LOCATION, DEVICE_COARSE_LOCATION,EMAIL,PHONE_NUMBER]');
+          '[NAME, DEVICE_PRECISE_LOCATION, DEVICE_COARSE_LOCATION,EMAIL, PHONE_NUMBER]');
         return null;
       }
     }
@@ -839,7 +835,7 @@ class AssistantApp {
    * @actionssdk
    * @dialogflow
    */
-  askForUpdatePermission(intent, intentArguments, dialogState) {
+  askForUpdatePermission (intent, intentArguments, dialogState) {
     debug('askForUpdatePermission: intent=%s, intentArguments=%s, dialogState=%s',
       intent, intentArguments, JSON.stringify(dialogState));
     if (!intent) {
@@ -898,7 +894,7 @@ class AssistantApp {
    * @actionssdk
    * @dialogflow
    */
-  askForTransactionRequirements(transactionConfig, dialogState) {
+  askForTransactionRequirements (transactionConfig, dialogState) {
     debug('checkForTransactionRequirements: transactionConfig=%s,' +
       ' dialogState=%s',
       JSON.stringify(transactionConfig), JSON.stringify(dialogState));
@@ -963,7 +959,7 @@ class AssistantApp {
    * @return {(Object|null)} HTTP response
    * @dialogflow
    */
-  askForTransactionDecision(order, transactionConfig, dialogState) {
+  askForTransactionDecision (order, transactionConfig, dialogState) {
     debug('askForTransactionDecision: order=%s, transactionConfig=%s,' +
       ' dialogState=%s', JSON.stringify(order),
       JSON.stringify(transactionConfig), JSON.stringify(dialogState));
@@ -1056,7 +1052,7 @@ class AssistantApp {
    * @actionssdk
    * @dialogflow
    */
-  askForPermission(context, permission, dialogState) {
+  askForPermission (context, permission, dialogState) {
     debug('askForPermission: context=%s, permission=%s, dialogState=%s',
       context, permission, JSON.stringify(dialogState));
     return this.askForPermissions(context, [permission], dialogState);
@@ -1085,7 +1081,7 @@ class AssistantApp {
    * @dialogflow
    * @actionssdk
    */
-  isPermissionGranted() {
+  isPermissionGranted () {
     debug('isPermissionGranted');
     return this.getArgumentCommon(this.BuiltInArgNames.PERMISSION_GRANTED) === 'true';
   }
@@ -1147,7 +1143,7 @@ class AssistantApp {
    * @actionssdk
    * @dialogflow
    */
-  askForDeliveryAddress(reason, dialogState) {
+  askForDeliveryAddress (reason, dialogState) {
     debug('askForDeliveryAddress: reason=%s, dialogState=%s', reason, dialogState);
     if (!reason) {
       this.handleError_('reason cannot be empty');
@@ -1197,7 +1193,7 @@ class AssistantApp {
    * @actionssdk
    * @dialogflow
    */
-  askForConfirmation(prompt, dialogState) {
+  askForConfirmation (prompt, dialogState) {
     debug('askForConfirmation: prompt=%s, dialogState=%s', prompt,
       JSON.stringify(dialogState));
     let confirmationValueSpec = {};
@@ -1254,7 +1250,7 @@ class AssistantApp {
    * @actionssdk
    * @dialogflow
    */
-  askForDateTime(initialPrompt, datePrompt, timePrompt, dialogState) {
+  askForDateTime (initialPrompt, datePrompt, timePrompt, dialogState) {
     debug('askForDateTime: initialPrompt=%s, datePrompt=%s, ' +
       'timePrompt=%s, dialogState=%s', initialPrompt, datePrompt, timePrompt,
       JSON.stringify(dialogState));
@@ -1306,7 +1302,7 @@ class AssistantApp {
    * @actionssdk
    * @dialogflow
    */
-  askForSignIn(dialogState) {
+  askForSignIn (dialogState) {
     debug('askForSignIn: dialogState=%s', JSON.stringify(dialogState));
     return this.fulfillSystemIntent_(this.StandardIntents.SIGN_IN,
       this.InputValueDataTypes_.SIGN_IN, null,
@@ -1359,11 +1355,11 @@ class AssistantApp {
    * @dialogflow
    * @actionssdk
    */
-  askForNewSurface(context, notificationTitle, capabilities, dialogState) {
+  askForNewSurface (context, notificationTitle, capabilities, dialogState) {
     debug('askForNewSurface: context=%s, notificationTitle=%s, ' +
       'capabilities=%s, dialogState=%s', context, notificationTitle,
       JSON.stringify(capabilities), dialogState);
-    let newSurfaceValueSpec = {context, notificationTitle, capabilities};
+    let newSurfaceValueSpec = { context, notificationTitle, capabilities };
     return this.fulfillSystemIntent_(this.StandardIntents.NEW_SURFACE,
       this.InputValueDataTypes_.NEW_SURFACE, newSurfaceValueSpec,
       'PLACEHOLDER_FOR_NEW_SURFACE', dialogState);
@@ -1407,7 +1403,7 @@ class AssistantApp {
    * @dialogflow
    * @actionssdk
    */
-  askToRegisterDailyUpdate(intent, intentArguments, dialogState) {
+  askToRegisterDailyUpdate (intent, intentArguments, dialogState) {
     debug('askToRegisterDailyUpdate: intent=%s, intentArguments=%s, ' +
       'dialogState=%s', intent, intentArguments, dialogState);
     if (!intent) {
@@ -1515,7 +1511,7 @@ class AssistantApp {
    * @actionssdk
    * @dialogflow
    */
-  getUser() {
+  getUser () {
     debug('getUser');
     const data = this.requestData();
 
@@ -1533,7 +1529,7 @@ class AssistantApp {
     user.user_id = user.userId;
     user.access_token = user.accessToken;
 
-    const {profile} = user;
+    const { profile } = user;
     user.userName = profile ? Object.assign({}, profile) : null;
 
     return user;
@@ -1570,7 +1566,7 @@ class AssistantApp {
    * @actionssdk
    * @dialogflow
    */
-  getUserName() {
+  getUserName () {
     debug('getUserName');
     return this.getUser() && this.getUser().userName
       ? this.getUser().userName : null;
@@ -1589,7 +1585,7 @@ class AssistantApp {
    * @actionssdk
    * @dialogflow
    */
-  getUserLocale() {
+  getUserLocale () {
     debug('getUserLocale');
     return this.getUser() && this.getUser().locale
       ? this.getUser().locale : null;
@@ -1605,14 +1601,14 @@ class AssistantApp {
    *
    * @return {Date | null} User's last seen date or null if never seen
    */
-  getLastSeen() {
+  getLastSeen () {
     debug('getLastSeen');
     const user = this.getUser();
     if (!user) {
       return null;
     }
     /** @type {string} */
-    const {lastSeen} = user;
+    const { lastSeen } = user;
     if (!lastSeen) {
       return null;
     }
@@ -1640,7 +1636,7 @@ class AssistantApp {
    * @actionssdk
    * @dialogflow
    */
-  getDeviceLocation() {
+  getDeviceLocation () {
     debug('getDeviceLocation');
     const data = this.requestData();
     if (!data || !data.device || !data.device.location) {
@@ -1659,7 +1655,7 @@ class AssistantApp {
    * @dialogflow
    * @actionssdk
    */
-  getInputType() {
+  getInputType () {
     debug('getInputType');
     const data = this.requestData();
     if (data && data.inputs) {
@@ -1710,7 +1706,7 @@ class AssistantApp {
    * @dialogflow
    * @actionssdk
    */
-  getArgumentCommon(argName) {
+  getArgumentCommon (argName) {
     debug('getArgument: argName=%s', argName);
     if (!argName) {
       error('Invalid argument name');
@@ -1739,7 +1735,7 @@ class AssistantApp {
    * @dialogflow
    * @actionssdk
    */
-  getTransactionRequirementsResult() {
+  getTransactionRequirementsResult () {
     debug('getTransactionRequirementsResult');
     const argument = this.findArgument_(this.BuiltInArgNames.TRANSACTION_REQ_CHECK_RESULT);
     if (argument && argument.extension && argument.extension.resultType) {
@@ -1757,7 +1753,7 @@ class AssistantApp {
    * @dialogflow
    * @actionssdk
    */
-  getDeliveryAddress() {
+  getDeliveryAddress () {
     debug('getDeliveryAddress');
     const {
       DELIVERY_ADDRESS_VALUE,
@@ -1766,7 +1762,7 @@ class AssistantApp {
     const argument = this.findArgument_(DELIVERY_ADDRESS_VALUE, TRANSACTION_DECISION_VALUE);
     if (argument && argument.extension) {
       if (argument.extension.userDecision === this.Transactions.DeliveryAddressUserDecision.ACCEPTED) {
-        const {location} = argument.extension;
+        const { location } = argument.extension;
         if (!location.postalAddress) {
           debug('User accepted, but may not have configured address in app');
           return null;
@@ -1791,7 +1787,7 @@ class AssistantApp {
    * @dialogflow
    * @actionssdk
    */
-  getTransactionDecision() {
+  getTransactionDecision () {
     debug('getTransactionDecision');
     const argument = this.findArgument_(this.BuiltInArgNames.TRANSACTION_DECISION_VALUE);
     if (argument && argument.extension) {
@@ -1809,7 +1805,7 @@ class AssistantApp {
    * @dialogflow
    * @actionssdk
    */
-  getUserConfirmation() {
+  getUserConfirmation () {
     debug('getUserConfirmation');
     const argument = this.findArgument_(this.BuiltInArgNames.CONFIRMATION);
     if (argument) {
@@ -1827,7 +1823,7 @@ class AssistantApp {
    * @dialogflow
    * @actionssdk
    */
-  getDateTime() {
+  getDateTime () {
     debug('getDateTime');
     const argument = this.findArgument_(this.BuiltInArgNames.DATETIME);
     if (argument) {
@@ -1846,7 +1842,7 @@ class AssistantApp {
    * @dialogflow
    * @actionssdk
    */
-  getSignInStatus() {
+  getSignInStatus () {
     debug('getSignInStatus');
     const argument = this.findArgument_(this.BuiltInArgNames.SIGN_IN);
     if (argument && argument.extension && argument.extension.status) {
@@ -1880,7 +1876,7 @@ class AssistantApp {
    * @dialogflow
    * @actionssdk
    */
-  hasSurfaceCapability(requestedCapability) {
+  hasSurfaceCapability (requestedCapability) {
     debug('hasSurfaceCapability: requestedCapability=%s', requestedCapability);
     const capabilities = this.getSurfaceCapabilities();
     if (!capabilities) {
@@ -1899,7 +1895,7 @@ class AssistantApp {
    * @dialogflow
    * @actionssdk
    */
-  getSurfaceCapabilities() {
+  getSurfaceCapabilities () {
     debug('getSurfaceCapabilities');
     const data = this.requestData();
     if (!data || !data.surface || !data.surface.capabilities) {
@@ -1907,9 +1903,7 @@ class AssistantApp {
       return null;
     }
     if (data && data.surface && data.surface.capabilities) {
-      return data.surface.capabilities.map(capability => capability.name
-    )
-      ;
+      return data.surface.capabilities.map(capability => capability.name);
     } else {
       error('No surface capabilities in incoming request');
       return null;
@@ -1923,7 +1917,7 @@ class AssistantApp {
    * @actionssdk
    * @dialogflow
    */
-  getAvailableSurfaces() {
+  getAvailableSurfaces () {
     debug('getAvailableSurfaces');
     return this.requestData().availableSurfaces || [];
   }
@@ -1940,20 +1934,16 @@ class AssistantApp {
    * @dialogflow
    * @actionssdk
    */
-  hasAvailableSurfaceCapabilities(capabilities) {
+  hasAvailableSurfaceCapabilities (capabilities) {
     debug('hasAvailableSurfaceCapabilities: capabilities=%s', capabilities);
     const capabilitiesArray = Array.isArray(capabilities) ? capabilities
       : [capabilities];
-    const {availableSurfaces} = this.requestData();
+    const { availableSurfaces } = this.requestData();
     if (availableSurfaces) {
       for (let surface of availableSurfaces) {
-        const availableCapabilities = surface.capabilities.map(capability => capability.name
-      )
-        ;
+        const availableCapabilities = surface.capabilities.map(capability => capability.name);
         const unavailableCapabilities = capabilitiesArray
-            .filter(capability => !availableCapabilities.includes(capability)
-      )
-        ;
+            .filter(capability => !availableCapabilities.includes(capability));
         if (!unavailableCapabilities.length) {
           return true;
         }
@@ -1970,7 +1960,7 @@ class AssistantApp {
    * @actionssdk
    * @dialogflow
    */
-  isNewSurface() {
+  isNewSurface () {
     debug('isNewSurface');
     const argument = this.findArgument_(this.BuiltInArgNames.NEW_SURFACE);
     return argument && argument.extension && argument.extension.status &&
@@ -1986,7 +1976,7 @@ class AssistantApp {
    * @dialogflow
    * @actionssdk
    */
-  isInSandbox() {
+  isInSandbox () {
     debug('isInSandbox');
     const data = this.requestData();
     return data && data.isInSandbox;
@@ -2025,7 +2015,7 @@ class AssistantApp {
    * @dialogflow
    * @actionssdk
    */
-  getRepromptCount() {
+  getRepromptCount () {
     debug('getRepromptCount');
     const repromptCount = this.getArgumentCommon(this.BuiltInArgNames.REPROMPT_COUNT);
     return repromptCount !== null ? parseInt(repromptCount, 10) : null;
@@ -2064,7 +2054,7 @@ class AssistantApp {
    * @dialogflow
    * @actionssdk
    */
-  isFinalReprompt() {
+  isFinalReprompt () {
     debug('isFinalReprompt');
     const finalReprompt = this.getArgumentCommon(this.BuiltInArgNames.IS_FINAL_REPROMPT);
     return finalReprompt === '1';
@@ -2078,7 +2068,7 @@ class AssistantApp {
    * @dialogflow
    * @actionssdk
    */
-  isUpdateRegistered() {
+  isUpdateRegistered () {
     debug('isUpdateRegistered');
     const argument = this.findArgument_(this.BuiltInArgNames.REGISTER_UPDATE);
     return argument && argument.extension && argument.extension.status === 'OK';
@@ -2094,7 +2084,7 @@ class AssistantApp {
    * @param {RichResponse=} richResponse RichResponse to clone.
    * @return {RichResponse} Constructed RichResponse.
    */
-  buildRichResponse(richResponse) {
+  buildRichResponse (richResponse) {
     return new RichResponse(richResponse);
   }
 
@@ -2105,7 +2095,7 @@ class AssistantApp {
    *     instead.
    * @return {BasicCard} Constructed BasicCard.
    */
-  buildBasicCard(bodyText) {
+  buildBasicCard (bodyText) {
     const card = new BasicCard();
     if (bodyText) {
       card.setBodyText(bodyText);
@@ -2119,7 +2109,7 @@ class AssistantApp {
    * @param {string=} title A title to set for a new List.
    * @return {List} Constructed List.
    */
-  buildList(title) {
+  buildList (title) {
     return new List(title);
   }
 
@@ -2128,7 +2118,7 @@ class AssistantApp {
    *
    * @return {Carousel} Constructed Carousel.
    */
-  buildCarousel() {
+  buildCarousel () {
     return new Carousel();
   }
 
@@ -2142,7 +2132,7 @@ class AssistantApp {
    *     use to identify this option instead of the option key.
    * @return {OptionItem} Constructed OptionItem.
    */
-  buildOptionItem(key, synonyms) {
+  buildOptionItem (key, synonyms) {
     let optionItem = new OptionItem();
     if (key) {
       optionItem.setKey(key);
@@ -2163,7 +2153,7 @@ class AssistantApp {
    * @param {string} orderId Unique identifier for the order.
    * @return {Order} Constructed Order.
    */
-  buildOrder(orderId) {
+  buildOrder (orderId) {
     return new Order(orderId);
   }
 
@@ -2173,7 +2163,7 @@ class AssistantApp {
    * @param {string=} cartId Unique identifier for the cart.
    * @return {Cart} Constructed Cart.
    */
-  buildCart(cartId) {
+  buildCart (cartId) {
     return new Cart(cartId);
   }
 
@@ -2186,7 +2176,7 @@ class AssistantApp {
    * @param {string} id Unique identifier for the item.
    * @return {LineItem} Constructed LineItem.
    */
-  buildLineItem(name, id) {
+  buildLineItem (name, id) {
     return new LineItem(id, name);
   }
 
@@ -2198,7 +2188,7 @@ class AssistantApp {
    *     Google. False if the order ID is app provided.
    * @return {OrderUpdate} Constructed OrderUpdate.
    */
-  buildOrderUpdate(orderId, isGoogleOrderId) {
+  buildOrderUpdate (orderId, isGoogleOrderId) {
     return new OrderUpdate(orderId, isGoogleOrderId);
   }
 
@@ -2214,7 +2204,7 @@ class AssistantApp {
    * @return {Promise} to resolve the result of the handler that was invoked.
    * @private
    */
-  invokeIntentHandler_(handler, intent) {
+  invokeIntentHandler_ (handler, intent) {
     debug('invokeIntentHandler_: handler=%s, intent=%s', handler, intent);
     this.lastErrorMessage_ = null;
     // map of intents or states
@@ -2255,17 +2245,13 @@ class AssistantApp {
               // No-op
               return result;
         })
-        .
-          catch(
+        .catch(
             (reason) => {
-            error(reason.message
-        )
-          ;
+            error(reason.message);
           this.handleError_('intent handler failed: %s', reason.message);
           this.lastErrorMessage_ = reason.message;
           return Promise.reject(reason);
-        })
-          ;
+        });
         } else {
           // Handle functions
           return Promise.resolve(handlerResult);
@@ -2281,60 +2267,15 @@ class AssistantApp {
    * @param {Array<string>} targets Argument to find
    * @return {*} The argument
    */
-  findArgument_(
-
-...
-  targets
-) {
-  const
-  data = this.requestData();
-
-  if(data
-
-&&
-  data
-.
-  inputs
-) {
-  for(
-
-  const
-  input
-  of
-  data
-.
-  inputs
-) {
-  if(input
-
-.
-  arguments
-) {
-  for(
-
-  const
-  argument
-  of
-  input
-.
-  arguments
-) {
-  for(
-
-  const
-  target
-  of
-  targets
-) {
-  if(argument
-
-.
-  name
-===
-  target
-) {
-  return
-  argument;
+  findArgument_ (...targets) {
+  const data = this.requestData();
+  if (data && data.inputs) {
+  for (const input of data.inputs) {
+  if (input.arguments) {
+  for (const argument of input.arguments) {
+  for (const target of targets) {
+  if (argument.name === target) {
+  return argument;
 }
 }
 }
@@ -2351,8 +2292,7 @@ return null;
  * @return {boolean} true if text is SSML markup.
  * @private
  */
-isSsml_(text)
-{
+isSsml_ (text) {
   debug('isSsml_: text=%s', text);
   if (!text) {
     error('Text can NOT be empty');
@@ -2367,8 +2307,7 @@ isSsml_(text)
  * @return {boolean} true if request is not Action API Version 1.
  * @private
  */
-isNotApiVersionOne_()
-{
+isNotApiVersionOne_ () {
   debug('isNotApiVersionOne_');
   return this.actionsApiVersion_ !== null &&
     parseInt(this.actionsApiVersion_, 10) >= ACTIONS_CONVERSATION_API_VERSION_TWO;
@@ -2381,8 +2320,7 @@ isNotApiVersionOne_()
  * @return {undefined}
  * @private
  */
-handleError_(text)
-{
+handleError_ (text) {
   debug('handleError_: text=%s', text);
   if (!text) {
     error('Missing text');
@@ -2409,8 +2347,7 @@ handleError_(text)
  * @return {(Object|null)} HTTP response.
  * @private
  */
-doResponse_(response, responseCode)
-{
+doResponse_ (response, responseCode) {
   debug('doResponse_: response=%s, responseCode=%d', JSON.stringify(response), responseCode);
   if (this.responded_) {
     return;
@@ -2448,8 +2385,7 @@ doResponse_(response, responseCode)
  * @return {undefined}
  * @private
  */
-extractData_()
-{
+extractData_ () {
   debug('extractData_');
   this.data = {};
 }
@@ -2461,15 +2397,14 @@ extractData_()
  * @return {undefined}
  * @private
  */
-extractUserStorage_()
-{
+extractUserStorage_ () {
   debug('extractUserStorage_');
   const user = this.getUser();
   if (!user) {
     this.userStorage = {};
     return;
   }
-  const {userStorage} = user;
+  const { userStorage } = user;
   if (!userStorage) {
     this.userStorage = {};
     return;
@@ -2485,12 +2420,11 @@ extractUserStorage_()
  * @return {undefined}
  * @private
  */
-addUserStorageToResponse_(response)
-{
+addUserStorageToResponse_ (response) {
   if (this.userStorage) {
     const user = this.getUser();
     if (user) {
-      const {userStorage} = user;
+      const { userStorage } = user;
       const json = JSON.stringify({
         data: this.userStorage // store as a sub property in case we want to add new features
       });
@@ -2512,8 +2446,7 @@ addUserStorageToResponse_(response)
  * @return {Object} HTTP response.
  * @private
  */
-fulfillPermissionsRequest_()
-{
+fulfillPermissionsRequest_ () {
   debug('fulfillPermissionsRequest_');
   return {};
 }
@@ -2526,8 +2459,7 @@ fulfillPermissionsRequest_()
  * @return {Object} HTTP response.
  * @private
  */
-fulfillConfirmationRequest_()
-{
+fulfillConfirmationRequest_ () {
   debug('fulfillConfirmationRequest_');
   return {};
 }
@@ -2540,8 +2472,7 @@ fulfillConfirmationRequest_()
  * @return {Object} HTTP response.
  * @private
  */
-fulfillDateTimeRequest_()
-{
+fulfillDateTimeRequest_ () {
   debug('fulfillDateTimeRequest_');
   return {};
 }
@@ -2553,8 +2484,7 @@ fulfillDateTimeRequest_()
  * @return {Object} HTTP response.
  * @private
  */
-fulfillSignInRequest_()
-{
+fulfillSignInRequest_ () {
   debug('fulfillSignInRequest_');
   return {};
 }
@@ -2567,8 +2497,7 @@ fulfillSignInRequest_()
  * @return {Object} HTTP response.
  * @private
  */
-fulfillTransactionRequirementsCheck_()
-{
+fulfillTransactionRequirementsCheck_ () {
   debug('fulfillTransactionRequirementsCheck_');
   return {};
 }
@@ -2581,8 +2510,7 @@ fulfillTransactionRequirementsCheck_()
  * @return {Object} HTTP response.
  * @private
  */
-fulfillTransactionDecision_()
-{
+fulfillTransactionDecision_ () {
   debug('fulfillTransactionDecision_');
   return {};
 }
@@ -2594,8 +2522,7 @@ fulfillTransactionDecision_()
  * @return {Array<Object>} Array of SpeechResponse objects.
  * @private
  */
-buildPromptsFromSsmlHelper_(ssmls)
-{
+buildPromptsFromSsmlHelper_ (ssmls) {
   debug('buildPromptsFromSsmlHelper_: ssmls=%s', ssmls);
   const prompts = [];
   for (let i = 0; i < ssmls.length; i++) {
@@ -2614,8 +2541,7 @@ buildPromptsFromSsmlHelper_(ssmls)
  * @return {Array<Object>} Array of SpeechResponse objects.
  * @private
  */
-buildPromptsFromPlainTextHelper_(plainTexts)
-{
+buildPromptsFromPlainTextHelper_ (plainTexts) {
   debug('buildPromptsFromPlainTextHelper_: plainTexts=%s', plainTexts);
   const prompts = [];
   for (let i = 0; i < plainTexts.length; i++) {
@@ -2636,8 +2562,7 @@ buildPromptsFromPlainTextHelper_(plainTexts)
  * @return {Object} paymentOptions
  * @private
  */
-buildPaymentOptions_(transactionConfig)
-{
+buildPaymentOptions_ (transactionConfig) {
   debug('buildPromptsFromPlainTextHelper_: transactionConfig=%s',
     JSON.stringify(transactionConfig));
   let paymentOptions = {};
@@ -2674,7 +2599,7 @@ const Intent = class {
    *
    * @param {string} name The name of the intent.
    */
-  constructor(name) {
+  constructor (name) {
     this.name_ = name;
   }
 
@@ -2683,7 +2608,7 @@ const Intent = class {
    *
    * @return {string} The name of the intent.
    */
-  getName() {
+  getName () {
     return this.name_;
   }
 };
@@ -2699,7 +2624,7 @@ const State = class {
    *
    * @param {string} name The name of the state.
    */
-  constructor(name) {
+  constructor (name) {
     this.name_ = name;
   }
 
@@ -2708,7 +2633,7 @@ const State = class {
    *
    * @return {string} The name of the state.
    */
-  getName() {
+  getName () {
     return this.name_;
   }
 };
